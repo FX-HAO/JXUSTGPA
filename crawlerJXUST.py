@@ -52,7 +52,7 @@ class GPA(object):
         try:
             self.url='http://218.65.107.173/%s' % py.utility.encodeToUrl.codeparse(re.findall('href="xscj_gc.aspx\?xh=.*?"',result)[0].replace('href=','').replace('"','').strip(),'gb2312')
         except IndexError as e:
-            self.result='count error!'
+            self.result='Incorrect username or password.'
 
     def main(self):
         self.req=urllib.request.Request(
@@ -97,7 +97,7 @@ def main():
         pwd=input('Please enter your password: ')
         student=GPA(sno,pwd)
         student.getGPA()
-        if student.result != 'count error!':
+        if student.result != 'Incorrect username or password.':
             for eachLine in student.result:
                 print('%-40s %6s %6s %6s' % (eachLine[3],eachLine[6],eachLine[7],eachLine[8]))
         else:

@@ -15,6 +15,7 @@ import urllib.request
 import http.cookiejar
 import html.parser
 import re
+import bs4
 
 import py.utility.encodeToUrl
 
@@ -48,7 +49,7 @@ class GPA(object):
             data=postData,
             headers=self.headers
             )
-        result=str(self.opener.open(self.req).read(),'gb2312')
+        result=str(bs4.BeautifulSoup(self.opener.open(self.req).read()))
         try:
             self.url='http://218.65.107.173/%s' % py.utility.encodeToUrl.codeparse(re.findall('href="xscj_gc.aspx\?xh=.*?"',result)[0].replace('href=','').replace('"','').strip(),'gb2312')
         except IndexError as e:
@@ -60,7 +61,7 @@ class GPA(object):
             headers=self.headers
             )
         result=str(self.opener.open(self.req).read(),'gb2312')
-        self.viewstate=re.findall('"__VIEWSTATE" value=".*?"',result)[0].replace('"__VIEWSTATE" value=','').replace('"','')
+        self.viewstate=re.findall('"__VIEWSTATE".*?value=".*?"',result)[0].replace('"__VIEWSTATE" value=','').replace('"','')
 
     def GPA(self):
         postData=urllib.parse.urlencode({
@@ -77,6 +78,7 @@ class GPA(object):
             data=postData
             )
         result=str(self.opener.open(self.req).read(),'gb2312')
+        self.GPA=re.split(':|：',re.sub('<.*?>','',re.findall('<span id="pjxfjd"><b>.*?</b>',result)[0]))[1]
         reg='<td>.*</td><td>.*</td><td>.*</td><td>.*</td><td>.*</td><td>.*</td><td>.*</td><td>.*</td><td>.*</td><td>.*</td><td>.*</td><td>.*</td><td>.*</td><td>.*</td><td>.*</td>'
         regex=re.compile(reg)
         result=re.findall(regex,result)

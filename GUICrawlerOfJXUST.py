@@ -40,6 +40,7 @@ class GUIGPA(object):
         student=GPA(self.sno.get(),self.pwd.get())
         student.getGPA()
         self.result=student.result
+        self.GPA=student.GPA
         if self.result == 'Incorrect username or password.':
             self.info=Frame(self.root)
             label=Label(self.info,text=self.result)
@@ -57,6 +58,7 @@ class GUIGPA(object):
             scrollbar=ttk.Scrollbar(self.treeview,orient='vertical',command=self.treeview.yview)
             self.treeview.configure(yscroll=scrollbar)
             self.treeview.pack()
+            self.treeview.insert('',"end",text='平均学分绩点',values=('',self.GPA,''))
             for eachLine in self.result:
                 if eachLine == self.result[0]:
                     continue

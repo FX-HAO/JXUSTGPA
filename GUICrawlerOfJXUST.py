@@ -27,12 +27,18 @@ class GUIGPA(object):
         self.pwd=StringVar(self.pwdfm)
         self.pwdarea=Entry(self.pwdfm,width=20,textvariable=self.pwd)
         self.pwdarea.pack(side=RIGHT)
+        self.pwdarea.bind("<Return>",self.enter)
         self.pwdfm.pack()
         
         self.submit=Button(self.root,text='submit',command=self.getGPA,bg='black',fg='red')
+        self.submit.bind("<Return>", self.enter)
         self.submit.pack(expand=1)
         
         self.root.mainloop()
+    
+    def enter(self,event):
+        #self.getGPA()
+        self.submit.invoke()
 
     def getGPA(self):
         if hasattr(self,'info'):

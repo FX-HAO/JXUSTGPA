@@ -5,6 +5,7 @@
 from tkinter import *
 from py.custom.crawlerJXUST import GPA
 from tkinter import ttk
+from urllib.error import URLError
 
 class GUIGPA(object):
     def __init__(self,initdir=None):
@@ -44,10 +45,17 @@ class GUIGPA(object):
         if hasattr(self,'info'):
             self.info.destroy()
         student=GPA(self.sno.get(),self.pwd.get())
-        student.getGPA()
+        try:
+            student.getGPA()
+        except URLError as e:
+            self.info=Frame(self.root)
+            label=Label(self.info,text="Please check the Internet Connection and try again!")
+            label.pack()
+            self.info.pack()
+            return
         self.result=student.result
         self.GPA=student.GPA
-        if self.result == 'Incorrect username or password.':
+        if hasattr(self,"result") and self.result == 'Incorrect username or password.':
             self.info=Frame(self.root)
             label=Label(self.info,text=self.result)
             label.pack()

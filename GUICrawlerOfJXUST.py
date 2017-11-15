@@ -3,7 +3,7 @@
 
 
 from tkinter import *
-from py.custom.crawlerJXUST import GPA
+from crawlerJXUST import GPA
 from tkinter import ttk
 from urllib.error import URLError
 

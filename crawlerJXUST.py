@@ -17,7 +17,7 @@ import html.parser
 import re
 import bs4
 
-import py.utility.encodeToUrl
+import encodeToUrl
 
 class GPA(object):
     def __init__(self,sno,pwd):
@@ -51,7 +51,7 @@ class GPA(object):
             )
         result=str(bs4.BeautifulSoup(self.opener.open(self.req).read()))
         try:
-            self.url='http://218.65.107.173/%s' % py.utility.encodeToUrl.codeparse(re.findall('href="xscj_gc.aspx\?xh=.*?"',result)[0].replace('href=','').replace('"','').strip(),'gb2312')
+            self.url='http://218.65.107.173/%s' % encodeToUrl.codeparse(re.findall('href="xscj_gc.aspx\?xh=.*?"',result)[0].replace('href=','').replace('"','').strip(),'gb2312')
         except IndexError as e:
             self.result='Incorrect username or password.'
 
